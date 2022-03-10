@@ -129,32 +129,33 @@ void loop()
 
 	if (digitalRead(FAN_SW))
 	{
-  fanSwDebounce--;
-  if(fanSwDebounce <= 0)
-  {
-    fanSwState = LOW;
-    fanSwDebounce = 0;
-    lastfanSwState = LOW;
-  }
+    fanSwDebounce--;
+    if(fanSwDebounce <= 0)
+    {
+      if (lastfanSwState == HIGH)
+      {
+        count++;
+        char tempStr[20];
+        sprintf(tempStr, "switch toggled %d times", count);
+        serialPrint(tempStr);
+        previousTime = currentTime;  
+      }
+      fanSwState = LOW;
+      fanSwDebounce = 0;
+      lastfanSwState = LOW;
+    }
 	}
 	else
 	{
-  fanSwDebounce++;
-  if( fanSwDebounce >= 50)
-  {
-    if (lastfanSwState == LOW)
+    fanSwDebounce++;
+    if( fanSwDebounce >= 50)
     {
-      count++;
-      char tempStr[20];
-      sprintf(tempStr, "switch toggled %d times", count);
-      serialPrint(tempStr);
-      previousTime = currentTime;  
+  
+      fanSwState = HIGH;
+      fanSwDebounce = 50;
+      lastfanSwState = HIGH;
+      fanRunTime = 0;
     }
-    fanSwState = HIGH;
-    fanSwDebounce = 50;
-    lastfanSwState = HIGH;
-    fanRunTime = 0;
-  }
 	}
 	one_millisec_passed = false;
 	}
