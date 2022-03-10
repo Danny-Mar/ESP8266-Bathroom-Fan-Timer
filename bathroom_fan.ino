@@ -7,7 +7,7 @@
 #define FAN 0
 
 #define TIMER_INTERVAL_MS	1 
-#define SERIAL_DEBUGGING_ON true
+#define SERIAL_DEBUGGING_ON false
 #define fanRunTimeMinutes 20
 
 const unsigned long eventInterval = 3000;
@@ -44,13 +44,13 @@ void setup()
   bool response;
   response = wm.autoConnect("AutoConnectAP"); // anonymous ap
   if(!response) {
-      Serial.println("Failed to connect");
+      serialPrint("Failed to connect");
       WifiEnabled = false;
       // ESP.restart();
   } 
   else {
       //if you get here you have connected to the WiFi    
-      Serial.println("Lets Go");
+      serialPrint("Lets Go");
       WifiEnabled = true;
   }
   
